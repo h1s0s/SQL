@@ -10,7 +10,6 @@ from departments; --departments의
 select employee_id, first_name, Last_name, Email -- 이것만 가져와줘
 from employees; --employees의
 
-
 --예제1
 select first_name, phone_number, hire_date, salary
 from employees;
@@ -104,6 +103,11 @@ where salary between 14000 and 17000;
 select first_name, last_name, salary
 from employees
 where first_name in ('Neena', 'Lex', 'John'); 
+--예제문제
+--연봉이 2100, 3100, 4100, 5100인 사원의 이름과 연봉을 구하시오
+select first_name, salary
+from employees
+where salary in (2100, 3100, 4100, 5100);
 
 --like 연산자
 --이것을 포함한 값을 가지고있는 열을 띄워라
@@ -131,10 +135,32 @@ select first_name
 from employees
 where first_name like '__a_';
 -------------------------------------------------------------------------------
---못들은 부분
 --NULL
+--null은 어떠한 값이 한번도 들어온 적이 없는것임. 아무런 값도 정해지지 않음.
+--0은 값이 0인것, 누군가가 의도적으로 0을 넣은것.
+--테이블을 만들때 (컬럼에) null을 넣게 할지 말지를 지정 해줄 수 있다.
+--기본키나 not null 속성에는 null을 사용 할 수 없음.
+--값에 null을 곱하면 null이 됨. null을 포함한 산술식은 null이 된다.
+select first_name, salary, commission_pct, salary*commission_pct 
+from employees
+where salary between 13000 and 15000;
 --is null/is not null
+--is null : null인 애들만 가져와라.
+select first_name, salary, commission_pct
+from employees
+where commission_pct is null;
+--예제문제
+--커미션비율이 있는 사원의 이름과 연봉 커미션 비율을 출력하세요
+select first_name, salary 연봉, commission_pct*salary 연봉커미션비율
+from employees
+where commission_pct is not null;
+--담당매니저가 없고 커미션비율이 없는 직원의 이름을 출력하세요
+--복수는 and로 구분
 
+select first_name, manager_id, commission_pct
+from employees
+where manager_id is null
+and commission_pct is null;
 -------------------------------------------------------------------------------
 --Order by 절
 --오름차순, 
