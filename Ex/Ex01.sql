@@ -10,6 +10,7 @@ from departments; --departments의
 select employee_id, first_name, Last_name, Email -- 이것만 가져와줘
 from employees; --employees의
 
+
 --예제1
 select first_name, phone_number, hire_date, salary
 from employees;
