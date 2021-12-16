@@ -16,7 +16,7 @@ from employees;
 
 --예제2, 출력할 컬럼명에 별명 적용하기
 select employee_id as empNo,--2. as 방식 무조건 대문자로 적용됨.
-        first_name "성",--1. 띄워쓰고 쓰는 방식 -> 무조건 대문자로 적용됨
+        first_name 성,--1. 띄워쓰고 쓰는 방식 -> 무조건 대문자로 적용됨
         salary "이름" --3 따옴표 방식, 대소문자, 공백, 특수문자 가능.
 from employees;
 
