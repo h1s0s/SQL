@@ -153,9 +153,9 @@ and         co.region_id = re.region_id;
 (106명)
 */
 select      em.employee_id 사번, 
-            ma.first_name||' '||ma.last_name 이름,
+            em.first_name||' '||em.last_name 이름,
             de.department_name 부서명,
-            em.first_name||' '||em.last_name 매니저이름
+            ma.first_name||' '||ma.last_name 매니저이름
 from        employees em, departments de, employees ma
-where       em.department_id = de.department_id(+)
+where       em.department_id = de.department_id
 and         ma.manager_id = em.employee_id;
