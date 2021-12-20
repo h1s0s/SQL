@@ -152,10 +152,10 @@ and         co.region_id = re.region_id;
 부서가 없는 직원(Kimberely)도 표시합니다.
 (106명)
 */
-select      em.employee_id, 
-            em.first_name, 
-            de.department_name,
-            ma.first_name
-from        employees em, employees ma, departments de
+select      em.employee_id 사번, 
+            ma.first_name||' '||ma.last_name 이름,
+            de.department_name 부서명,
+            em.first_name||' '||em.last_name 매니저이름
+from        employees em, departments de, employees ma
 where       em.department_id = de.department_id(+)
-and         em.employee_id = ma.manager_id;
+and         ma.manager_id = em.employee_id;
