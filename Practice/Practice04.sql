@@ -107,10 +107,15 @@ select  employee_id 직원번호,
 from    employees
 where   salary in (select avg(salary)
                      from employees
-                    where department_id in (select department_id
-                                            from    employees
-                                            where   
-                 group by department_id)
+                    where department_id any (select   department_id, avg(salary)
+                                              from     employees
+                                          group by department_id;
+                 group by department_id);
+                 
+--1.자신의 부서 평균 급여
+select   avg(salary)
+from     employees
+group by department_id;
 /*
 아직 안배운 문법
 문제8.
