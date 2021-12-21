@@ -136,3 +136,28 @@ from    employees
 where   salary  >ALL (select    salary
                         from    employees
                         where   department_id = 110);
+                        
+------------------------------------------------------------------------------
+--조건절에서 비교 vs 테이블에서 조인
+------------------------------------------------------------------------------
+--각 부서별로 최고 급여를 받는 사원을 출력하세요
+--1. 조건절에서 비교(서브쿼리)
+select  department_id,
+        employee_id,
+        first_name,
+        salary
+from    employees
+where   (department_id, salary) in (select   department_id, max(salary)
+                                    from     employees
+                                    group by department_id);
+--2. 테이블에서 조인(테이블 서브쿼리)
+--특징(1) 서브쿼리문의 컬럼을 출력할수 있음.
+select  e.department_id, 
+        e.employee_id, 
+        e.first_name, 
+        e.salary
+from    employees e, (select     department_id, max(salary) salary
+                        from     employees
+                        group by department_id) s
+where   e.department_id = s.department_id
+and     e.salary = s.salary;
