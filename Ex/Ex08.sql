@@ -151,7 +151,7 @@ where   (department_id, salary) in (select   department_id, max(salary)
                                     from     employees
                                     group by department_id);
 --2. 테이블에서 조인(테이블 서브쿼리)
---특징(1) 서브쿼리문의 컬럼을 출력할수 있음.
+--특징(1) 서브쿼리문의 컬럼까지 더해져 컬럼의 종류가 더 많아지는게 특징임
 select  e.department_id, 
         e.employee_id, 
         e.first_name, 
