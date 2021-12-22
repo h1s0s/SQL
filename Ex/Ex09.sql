@@ -87,16 +87,17 @@ where   rno>=3
 and     rno<=7;
             
 --2. 07년에 입사한 직원중 급여가 많은 직원중 3에서 7등의 이름 급여 입사일, 부서명은?
-select o.rno,
-       o.first_name,
-       o.salary,
-       o.hire_date,
-       de.department_name
-from (select rownum rno, first_name, salary, hire_date, department_id
-        from (select        *
-                from        employees 
-                where       hire_date between '07/01/01' and '07/12/31'
-                order by    salary desc)) o, 
-             departments de
-where   o.department_id = de.department_id
-and     o.rno between 3 and 7;
+select      o.rno,
+            o.first_name,
+            o.salary,
+            o.hire_date,
+            de.department_name
+from        (select rownum rno, first_name, salary, hire_date, department_id
+            from (select        *
+                    from        employees 
+                    where       hire_date between '07/01/01' and '07/12/31'
+                    order by    salary desc)) o, 
+            departments de
+where       o.department_id = de.department_id(+)
+and         o.rno between 3 and 7
+order by    o.rno;
