@@ -8,21 +8,23 @@ from    employees
 where   salary < (select    avg(salary)
                     from    employees);
 /*
-문제2. (보류)-----------------------------------------------------------------------------------------
+문제2.
 평균급여 이상, 최대급여 이하의 월급을 받는 사원의
 직원번호(employee_id), 이름(first_name), 급여(salary), 평균급여, 최대급여를 급여의 
 오름차순으로 정렬하여 출력하세요 
 (51건)
 where절, 평균급여, 최대급여?
 */
-select  employee_id 직원번호
-from    employees
-where   salary in (select salary
-                     from employees
-                    where salary > avg(salary)
-                       and salary <= max(salary));
-
-group by employee_id;
+select   employee_id 직원번호,
+         first_name 이름,
+         salary 급여,
+         round(sem.asa, 0) 평균급여,
+         sem.msa 최대급여
+from     employees, (select  avg(salary) asa,
+                             max(salary) msa
+                       from  employees) sem
+where    salary between asa and msa
+order by salary asc;
 /*
 문제3.
 직원중 Steven(first_name) king(last_name)이 소속된 부서(departments)가 있는 곳의 주소를 알아보려고 한다.
@@ -96,7 +98,7 @@ where       em.job_id = jo.job_id
 group by    jo.job_title
 order by    sum(salary) desc;
 /*
-문제7.보류-------------------------------------------------------------------------------
+문제7.
 자신의 부서 평균 급여보다 연봉(salary)이 많은 직원의 
 직원번호(employee_id), 이름(first_name)과 급여(salary)을 조회하세요 
 (38건)
@@ -104,20 +106,28 @@ order by    sum(salary) desc;
 select  employee_id 직원번호,
         first_name 이름,
         salary 급여
-from    employees
-where   salary in (select avg(salary)
-                     from employees
-                    where department_id any (select   department_id, avg(salary)
-                                              from     employees
-                                          group by department_id;
-                 group by department_id);
-                 
---1.자신의 부서 평균 급여
-select   avg(salary)
-from     employees
-group by department_id;
+from    employees, (select   department_id,
+                             avg(salary) sa
+                    from     employees
+                    group by department_id) aem
+where   salary > aem.sa 
+and     department_id = eme.departmenet_id;
 /*
-아직 안배운 문법
 문제8.
 직원 입사일이 11번째에서 15번째의 직원의 사번, 이름, 급여, 입사일을 입사일 순서로 출력하세요
 */
+select  ro,
+        employee_id,
+        first_name,
+        salary,
+        hire_date
+from    (select     rownum ro,
+                    eo.employee_id,
+                    eo.first_name,
+                    eo.salary,
+                    eo.hire_date
+         from       (select     employee_id, first_name, salary, hire_date
+                    from        employees
+                    order by    hire_date asc) eo)
+where   ro between 11 and 15;
+;
