@@ -1,5 +1,5 @@
 ------------------------------------------------------------------------------------------------------------------
---실습문제
+--ㅇ시퀀스 보
 select * from user_sequences;
 --ㅇ시퀀스 삭제
 drop sequence seq_author_id;
@@ -10,7 +10,9 @@ delete from book;
 --ㅇ테이블 삭제
 drop table book;
 drop table author;
---1. book과 author 테이블 만들기, 확인-----------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------------
+--실습문제
+--1. book과 author 테이블 만들기
 create table author(
     author_id   number(10),
     author_name varchar2(100) not null,
@@ -64,12 +66,12 @@ values (seq_book_id.nextval, '오직두사람', '문학동네', '2017-05-04', 6)
 insert into book
 values (seq_book_id.nextval, '26년', '재미주의', '2012-02-04', 5);
 
--- 테이블 출력
+-- 4. 테이블 출력
 select  bo.book_id, bo.title, bo.pubs, bo.pub_date, au.author_id, au.author_name, author_desc
 from    book bo, author au
 where   au.author_id = bo.author_id;
 
---강풀정보 변경
+-- 5. 강풀정보 변경
 update  author
 set     author_desc = '서울특별시'
 where   author_id = 5;
