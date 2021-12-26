@@ -188,7 +188,14 @@ order by (max(salary)-min(salary)) desc;
 출력은 관리자별로 평균급여가 5000이상 중에 평균급여 최소급여 최대급여를 출력합니다.
 평균급여의 내림차순으로 정렬하고 평균급여는 소수점 첫째짜리에서 반올림 하여 출력합니다.
 */
-
+select   manager_id 관리자아이디, 
+         round(avg(salary)) 평균급여,
+         min(salary) 최소급여,
+         max(salary) 최대급여
+from     employees
+having   avg(salary) >= 5000
+group by manager_id
+order by avg(salary) desc;
 /*
 문제10
 아래회사는 보너스 지급을 위해 직원을 입사일 기준으로 나눌려고 합니다. 
@@ -196,6 +203,15 @@ order by (max(salary)-min(salary)) desc;
 이후입사자는 ‘상장이후입사’ optDate 컬럼의 데이터로 출력하세요.
 정렬은 입사일로 오름차순으로 정렬합니다.
 */
+select      first_name,
+            
+            case when hire_date <= '02/12/31' then '창립멤버'
+                 when hire_date <= '03/12/31' then '03년입사'
+                 when hire_date <= '04/12/31' then '04년입사'
+            else '상장이후입사'
+            END optDate
+from        employees
+order by    hire_date asc;
 
 --Practice03------------------------------------------------------------------------------
 /*
