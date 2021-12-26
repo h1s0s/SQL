@@ -398,20 +398,39 @@ from    employees em, (select   avg(salary) avg,
                         from    employees) sem
 where   salary >= sem.avg
 and     salary <= sem.max;
+/*
 문제3.
 직원중 Steven(first_name) king(last_name)이 소속된 부서(departments)가 있는 곳의 주소를 알아보려고 한다.
 도시아이디(location_id), 거리명(street_address), 우편번호(postal_code), 도시명(city), 
 주(state_province), 나라아이디(country_id) 를 출력하세요
 (1건)
 */
-
+select  lo.location_id,
+        lo.street_address,
+        lo.postal_code,
+        lo.city,
+        lo.state_province,
+        lo.country_id
+from    departments de, locations lo
+where   de.location_id = lo.location_id
+and     de.department_id = (select  department_id
+                            from    employees
+                            where   first_name = 'Steven'
+                            and     last_name = 'King');
 /*
 문제4.
 job_id 가 'ST_MAN' 인 직원의 급여보다 
 작은 직원의 사번,이름,급여를 급여의 내림차순으로 출력하세요  -ANY연산자 사용
 (74건)
 */
-
+select   employee_id,
+         first_name,
+         salary
+from     employees
+where    salary <ANY(select  salary
+                     from    employees
+                     where   job_id = 'ST_MAN')
+order by salary desc;
 /*
 문제5. 
 각 부서별로 최고의 급여를 받는 사원의 직원번호(employee_id), 
@@ -421,26 +440,71 @@ job_id 가 'ST_MAN' 인 직원의 급여보다
 (11건)
 */
 --1.조건절비교
-
+select      employee_id,
+            first_name,
+            salary,
+            department_id
+from        employees
+where       (department_id, salary) in (select      department_id, max(salary)
+                                        from        employees
+                                        group by    department_id)
+order by    salary desc;
 --2.테이블조인
+select      em.employee_id,
+            em.first_name,
+            em.salary,
+            em.department_id
+from        employees em, (select   department_id, max(salary) maxsalary
+                            from     employees
+                            group by department_id) se
+where       em.department_id = se.department_id
+and         em.salary = se.maxsalary
+order by    em.salary desc;
 /*
 문제6.
 각 업무(job) 별로 연봉(salary)의 총합을 구하고자 합니다. 
 연봉 총합이 가장 높은 업무부터 업무명(job_title)과 연봉 총합을 조회하시오 
 (19건)
 */
-
+select      jo.job_title 업무명,
+            sum(salary) 연봉총합
+from        employees em, jobs jo
+where       em.job_id = jo.job_id
+group by    jo.job_title
+order by    sum(salary) desc;
 /*
 문제7.
 자신의 부서 평균 급여보다 연봉(salary)이 많은 직원의 
 직원번호(employee_id), 이름(first_name)과 급여(salary)을 조회하세요 
 (38건)
 */
-
+select  employee_id 직원번호,
+        first_name 이름,
+        salary 급여
+from    employees, (select   department_id,
+                             avg(salary) sa
+                    from     employees
+                    group by department_id) aem
+where   salary > aem.sa 
+and     department_id = eme.departmenet_id;
 /*
 문제8.
 직원 입사일이 11번째에서 15번째의 직원의 사번, 이름, 급여, 입사일을 입사일 순서로 출력하세요
 */
+select  ro,
+        employee_id,
+        first_name,
+        salary,
+        hire_date
+from    (select     rownum ro,
+                    eo.employee_id,
+                    eo.first_name,
+                    eo.salary,
+                    eo.hire_date
+         from       (select     employee_id, first_name, salary, hire_date
+                    from        employees
+                    order by    hire_date asc) eo)
+where   ro between 11 and 15;
 --Practice05------------------------------------------------------------------------------
 /*
 문제1.
