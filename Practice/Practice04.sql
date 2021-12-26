@@ -85,6 +85,16 @@ where       (department_id, salary) in (select      department_id, max(salary)
                                         group by    department_id)
 order by    salary desc;
 --2.테이블조인
+select      em.employee_id,
+            em.first_name,
+            em.salary,
+            em.department_id
+from        employees em, (select   department_id, max(salary) maxsalary
+                            from     employees
+                            group by department_id) se
+where       em.department_id = se.department_id
+and         em.salary = se.maxsalary
+order by    em.salary desc;
 /*
 문제6.
 각 업무(job) 별로 연봉(salary)의 총합을 구하고자 합니다. 
