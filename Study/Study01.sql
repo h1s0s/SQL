@@ -212,7 +212,6 @@ select      first_name,
             END optDate
 from        employees
 order by    hire_date asc;
-
 --Practice03------------------------------------------------------------------------------
 /*
 문제1.
@@ -220,7 +219,13 @@ order by    hire_date asc;
 조회하여 부서이름(department_name) 오름차순, 사번(employee_id) 내림차순 으로 정렬하세요.
 (106건)
 */
-
+select   em.employee_id,
+         em.first_name,
+         em.last_name,
+         de.department_name
+from     employees em, departments de
+where    em.department_id = de.department_id
+order by de.department_name asc, em.employee_id desc;
 /*
 문제2.
 employees 테이블의 job_id는 현재의 업무아이디를 가지고 있습니다.
@@ -229,13 +234,29 @@ employees 테이블의 job_id는 현재의 업무아이디를 가지고 있습�
 부서가 없는 Kimberely(사번 178)은 표시하지 않습니다.
 (106건)
 */
-
+select   em.employee_id,
+         em.first_name,
+         em.salary,
+         de.department_name,
+         jo.job_title
+from     employees em, departments de, jobs jo
+where    em.department_id = de.department_id
+and      em.job_id = jo.job_id
+order by employee_id asc;
 /*
 문제2-1.
 문제2에서 부서가 없는 Kimberely(사번 178)까지 표시해 보세요
 (107건)
 */
-
+select   em.employee_id,
+         em.first_name,
+         em.salary,
+         de.department_name,
+         jo.job_title
+from     employees em, departments de, jobs jo
+where    em.department_id = de.department_id(+)
+and      em.job_id = jo.job_id
+order by employee_id asc;
 /*
 문제3.
 도시별로 위치한 부서들을 파악하려고 합니다.
