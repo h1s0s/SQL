@@ -377,17 +377,27 @@ and         ma.manager_id = em.employee_id;
 평균 급여보다 적은 급여을 받는 직원은 몇명인지 구하시요.
 (56건)
 */
-
+select  count(*)
+from    employees
+where   salary < (select avg(salary)
+                 from    employees);
 /*
 문제2.
 평균급여 이상, 최대급여 이하의 월급을 받는 사원의
 직원번호(employee_id), 이름(first_name), 급여(salary), 평균급여, 최대급여를 급여의 
 오름차순으로 정렬하여 출력하세요 
 (51건)
-where절, 평균급여, 최대급여?
 */
-
-/*
+select  em.employee_id,
+        em.first_name,
+        em.salary,
+        round(sem.avg,0),
+        sem.max
+from    employees em, (select   avg(salary) avg,
+                                max(salary) max
+                        from    employees) sem
+where   salary >= sem.avg
+and     salary <= sem.max;
 문제3.
 직원중 Steven(first_name) king(last_name)이 소속된 부서(departments)가 있는 곳의 주소를 알아보려고 한다.
 도시아이디(location_id), 거리명(street_address), 우편번호(postal_code), 도시명(city), 
