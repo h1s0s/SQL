@@ -1,10 +1,10 @@
 --SQL 
 --select문 select, from절---------------------------------------------------
 
-select * --전체 데이터 가져와줘
+select * --전체 데이터 가져오기
 from employees; --employees의
 
-select * --전체 데이터 가져와줘
+select * --전체 데이터 가져오기
 from departments; --departments의
 
 select employee_id, first_name, Last_name, Email -- 이것만 가져와줘
